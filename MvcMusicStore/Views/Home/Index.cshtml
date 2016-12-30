@@ -1,0 +1,90 @@
+﻿@using ViewType = MvcMusicStore.ViewModels.ViewType
+@model List<MvcMusicStore.Models.Album>
+@{
+    ViewBag.Title = "ASP.NET MVC Music Store";
+}
+<div id="promotion" style="background: url(@ViewBag.MainImageUrl)">
+</div>
+
+<h3><em>Fresh</em> off the grill</h3>
+<small>
+    @if (ViewBag.ViewType == ViewType.TopSelling)
+    {
+        <a href="@Url.Action("Index", new { type = ViewType.TopViewed })">Top Viewed</a>
+    }
+    else
+    {
+        <a href="@Url.Action("Index", new { type = ViewType.TopSelling })">Top Selling</a>
+    }
+</small>
+<div class="jcarousel-wrapper">
+    <div class="jcarousel">
+        <ul id="album-list">
+            @foreach (var album in Model)
+            {
+                <li>
+                    <a href="@Url.Action("Details", "Store",
+                         new { id = album.AlbumId })">
+
+                        <img alt="@album.Title" src="@album.AlbumArtUrl" />
+                        <span>@album.Title</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+    <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+
+</div>
+@section Styles
+{
+    <link href="@Url.Content("~/Content/carousel.css")" rel="stylesheet"
+      type="text/css" />
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.jcarousel.min.js")"
+            type="text/javascript"></script>
+    
+    <script type="text/javascript">
+        (function ($) {
+            $(function () {
+                $('.jcarousel').jcarousel();
+
+                $('.jcarousel-control-prev')
+                    .on('jcarouselcontrol:active', function () {
+                        $(this).removeClass('inactive');
+                    })
+                    .on('jcarouselcontrol:inactive', function () {
+                        $(this).addClass('inactive');
+                    })
+                    .jcarouselControl({
+                        target: '-=1'
+                    });
+
+                $('.jcarousel-control-next')
+                    .on('jcarouselcontrol:active', function () {
+                        $(this).removeClass('inactive');
+                    })
+                    .on('jcarouselcontrol:inactive', function () {
+                        $(this).addClass('inactive');
+                    })
+                    .jcarouselControl({
+                        target: '+=1'
+                    });
+
+                $('.jcarousel-pagination')
+                    .on('jcarouselpagination:active', 'a', function () {
+                        $(this).addClass('active');
+                    })
+                    .on('jcarouselpagination:inactive', 'a', function () {
+                        $(this).removeClass('active');
+                    })
+                    .jcarouselPagination();
+            });
+        })(jQuery);
+        </script>
+}
