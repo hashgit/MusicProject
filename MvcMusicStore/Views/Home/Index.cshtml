@@ -52,6 +52,15 @@
     <script type="text/javascript">
         (function ($) {
             $(function () {
+
+                setInterval(function() {
+                        $.get("/Home/GetMainImage",
+                            function(data) {
+                                $("#promotion").css("background", "url("+ data +")");
+                            });
+                    },
+                    2000);
+
                 $('.jcarousel').jcarousel();
 
                 $('.jcarousel-control-prev')

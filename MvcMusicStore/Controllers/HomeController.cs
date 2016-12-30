@@ -26,14 +26,14 @@ namespace MvcMusicStore.Controllers
             return View(albums);
         }
 
-        private string GetMainImage()
+        public string GetMainImage()
         {
             var imageCount = storeDB.MainImages.Count();
             var random = new Random();
             var imageId = random.Next(imageCount);
 
             var image = storeDB.MainImages.Find(imageId+1);
-            return image?.ImageUrl ?? "/Content/Images/main01.jpg";
+            return image != null ? image.ImageUrl : "/Content/Images/main01.jpg";
         }
 
         private List<Album> GetTopViewedAlbums(int count)
